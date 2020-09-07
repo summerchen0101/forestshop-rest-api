@@ -45,5 +45,15 @@
   "_moduleAliases": {
     "@": "src",
     "@ctrl": "src/controllers"
+  },
+  "jest": {
+    "preset":"ts-jest",
+    "testEnvironment":"node",
+    "rootDir":".",
+    "moduleNameMapper":{
+       "@ctrl/(.*)":[
+          "<rootDir>/src/controllers/$1"
+       ]
+    }
   }
 }
