@@ -1,9 +1,10 @@
+import 'module-alias/register';
 import 'dotenv/config';
 import express, { Express } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import routes from './routes';
+import routes from '@/routes';
 // import errorHandler, { handleNotFround } from './errors/handler'
 
 mongoose.Promise = global.Promise;

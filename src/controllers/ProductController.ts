@@ -51,9 +51,14 @@ function delProduct(req: Request, res: Response): void {
     });
 }
 
+function sum(a: number, b: number): number {
+  return a + b;
+}
+
 export default {
   createProduct,
   updateProduct,
   getProducts,
-  delProduct
+  delProduct,
+  sum
 };
