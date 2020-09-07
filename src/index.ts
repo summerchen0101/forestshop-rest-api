@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import routes from '@/routes';
 import createError from 'http-errors';
-// import errorHandler, { handleNotFround } from './errors/handler'
 
 mongoose.Promise = global.Promise;
 

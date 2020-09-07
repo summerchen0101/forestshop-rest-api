@@ -1,4 +1,4 @@
-import Product, { IProductModel, IProduct } from '@/models/Product';
+import Product, { IProductModel, IProduct } from '@/lib/Product/models/Product';
 
 class ProductRepository<T extends IProductModel, U extends IProduct> {
   constructor(public model: T) {}

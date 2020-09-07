@@ -1,8 +1,10 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
+import Ingredient, { IIngredient } from './schemas/Ingredient';
 
 export interface IProduct extends Document {
   name: string;
   price: number;
+  ingredients?: IIngredient[];
 }
 
 const productSchema: Schema = new Schema(
@@ -15,7 +17,8 @@ const productSchema: Schema = new Schema(
     price: {
       type: Number,
       required: true
-    }
+    },
+    ingredient: [Ingredient]
   },
   { timestamps: true }
 );
