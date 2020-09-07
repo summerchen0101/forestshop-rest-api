@@ -1,10 +1,11 @@
 import 'module-alias/register';
 import 'dotenv/config';
-import express, { Express } from 'express';
+import express, { Express, Errback, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import routes from '@/routes';
+import createError from 'http-errors';
 // import errorHandler, { handleNotFround } from './errors/handler'
 
 mongoose.Promise = global.Promise;
@@ -19,6 +20,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(handleNotFround);
 // app.use(errorHandler);
+
+app.use((req, res) => {
+  res
+    .status(404)
+    .json(createError(404, 'Sorry! The Page is Not Found!', { code: 4001 }));
+});
+app.use((err: Errback, req: Request, res: Response) => {
+  res.status(500).json(createError(500, err, { code: 5001 }));
+});
 
 mongoose
   .connect(process.env.DATABASE_URL ?? '', {

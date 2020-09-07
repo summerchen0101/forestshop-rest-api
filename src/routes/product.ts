@@ -1,10 +1,10 @@
 import express from 'express';
-import ProductController from '../controllers/ProductController';
+import { RetriveUserController } from '@/controllers/ProductController';
 
 const router = express.Router();
-router.get('/', ProductController.getProducts);
-router.post('/', ProductController.createProduct);
-router.put('/:id', ProductController.updateProduct);
-router.delete('/:id', ProductController.delProduct);
+router.get('/', (req, res) => new RetriveUserController().execute(req, res));
+// router.post('/', ProductController.createProduct);
+// router.put('/:id', ProductController.updateProduct);
+// router.delete('/:id', ProductController.delProduct);
 
 export default router;

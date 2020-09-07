@@ -1,64 +1,62 @@
-import ProductRepository from '../models/repositories/ProductRepository';
-import createError from 'http-errors';
+import { BaseController } from './BaseController';
+import ProductService from '@/services/ProductService';
+// import createError from 'http-errors';
 import { Request, Response } from 'express';
-// import errCodes from '../errors/codes.json'
 
-// CREATE
-function createProduct(req: Request, res: Response): void {
-  const product = req.body;
-
-  ProductRepository.create(product)
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(createError(406));
-    });
-}
-
-// RETRIVE
-function getProducts(req: Request, res: Response): void {
-  ProductRepository.getList()
-    .then((result) => {
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(createError(406));
-    });
-}
-
-// UPDATE
-async function updateProduct(req: Request, res: Response): Promise<void> {
-  const product = req.body;
-  try {
-    const result = await ProductRepository.update(req.params.id, product);
-    res.json({ result: { ...result?.toObject(), ...product }, success: true });
-  } catch (err) {
-    res.json(createError(406));
+export class CreateUserController extends BaseController {
+  protected async executeImpl(
+    req: Request,
+    res: Response
+  ): Promise<void | any> {
+    try {
+      const product = req.body;
+      const result = await ProductService.create(product);
+      return this.ok(res, result);
+    } catch (err) {
+      return this.fail(res, err.toString());
+    }
   }
 }
-// DELETE
-function delProduct(req: Request, res: Response): void {
-  ProductRepository.remove(req.params.id)
-    .then((result) => {
-      if (result === null) {
-        return res.json(createError(406));
-      }
-      res.json(result);
-    })
-    .catch((err) => {
-      res.json(createError(406));
-    });
+
+export class RetriveUserController extends BaseController {
+  protected async executeImpl(
+    req: Request,
+    res: Response
+  ): Promise<void | any> {
+    try {
+      const result = await ProductService.getList();
+      return this.ok(res, result);
+    } catch (err) {
+      return this.fail(res, err.toString());
+    }
+  }
 }
 
-function sum(a: number, b: number): number {
-  return a + b;
+export class UpdateUserController extends BaseController {
+  protected async executeImpl(
+    req: Request,
+    res: Response
+  ): Promise<void | any> {
+    try {
+      const product = req.body;
+      await ProductService.update(req.params.id, product);
+      return this.ok(res);
+    } catch (err) {
+      return this.fail(res, err.toString());
+    }
+  }
 }
 
-export default {
-  createProduct,
-  updateProduct,
-  getProducts,
-  delProduct,
-  sum
-};
+export class RemoveUserController extends BaseController {
+  protected async executeImpl(
+    req: Request,
+    res: Response
+  ): Promise<void | any> {
+    try {
+      const result = await ProductService.remove(req.params.id);
+      return this.ok(res, result);
+    } catch (err) {
+      return this.fail(res, err.toString());
+    }
+  }
+}
