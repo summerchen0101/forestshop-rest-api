@@ -43,17 +43,6 @@
     "morgan": "^1.10.0"
   },
   "_moduleAliases": {
-    "@": "src",
-    "@ctrl": "src/controllers"
-  },
-  "jest": {
-    "preset":"ts-jest",
-    "testEnvironment":"node",
-    "rootDir":".",
-    "moduleNameMapper":{
-       "@ctrl/(.*)":[
-          "<rootDir>/src/controllers/$1"
-       ]
-    }
+    "@": "src"
   }
 }
