@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import ProductModel from '../Product';
+import ProductModel from '@/lib/Product/models/Product';
 import connect from '@/utils/mockServerConnection';
 
 connect(ProductModel);
