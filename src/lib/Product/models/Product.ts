@@ -18,7 +18,7 @@ const productSchema: Schema = new Schema(
       type: Number,
       required: true
     },
-    ingredient: [Ingredient]
+    ingredients: [Ingredient]
   },
   { timestamps: true }
 );
