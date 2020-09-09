@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import ProductModel from '../Product';
+import connect from '@/utils/mockServerConnection';
+
+connect(ProductModel);
 
 const productData = {
   name: 'Chocolate Cookies',
@@ -10,23 +13,6 @@ const productData = {
 describe('Product Model Test', () => {
   // It's just so easy to connect to the MongoDB Memory Server
   // By using mongoose.connect
-  beforeAll(async () => {
-    await mongoose.connect(
-      process.env.MOCK_DATABASE_URL,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: false
-      },
-      (err) => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-        }
-      }
-    );
-  });
 
   it('create & save product successfully', async () => {
     const validProduct = new ProductModel(productData);
