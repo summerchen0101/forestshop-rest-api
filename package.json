@@ -7,7 +7,8 @@
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node build/index.js",
-    "test": "jest"
+    "test:model": "jest src/lib/Product/models/__test__/product-model.spec.ts --detectOpenHandles",
+    "test:route": "jest src/lib/Product/route/__test__/product-route.spec.ts --detectOpenHandles"
   },
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.2.3",
@@ -16,6 +17,7 @@
     "@types/jest": "^26.0.13",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^14.6.4",
+    "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "eslint": "^7.8.1",
@@ -26,6 +28,7 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
     "rimraf": "^3.0.2",
+    "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"

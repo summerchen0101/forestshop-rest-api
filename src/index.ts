@@ -11,14 +11,13 @@ mongoose.Promise = global.Promise;
 
 export const app: Express = express();
 
-app.use('/', routes);
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(handleNotFround);
 // app.use(errorHandler);
+app.use('/', routes);
 
 app.use((req, res) => {
   res
@@ -44,3 +43,5 @@ mongoose
   .catch(() => {
     console.log('Mongodb connection failed.');
   });
+
+export default app;
