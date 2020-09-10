@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '@/index';
+import app from '@/app';
 import ProductModel from '@/lib/Product/models/Product';
 import connect from '@/utils/mockServerConnection';
 

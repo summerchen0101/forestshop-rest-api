@@ -9,7 +9,7 @@ import createError from 'http-errors';
 
 mongoose.Promise = global.Promise;
 
-export const app: Express = express();
+const app: Express = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,21 +27,5 @@ app.use((req, res) => {
 app.use((err: Errback, req: Request, res: Response) => {
   res.status(500).json(createError(500, err, { code: 5001 }));
 });
-
-mongoose
-  .connect(process.env.DATABASE_URL ?? '', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-  })
-  .then(() => {
-    app.listen(process.env.PORT, () =>
-      console.log(`Open http://localhost:${process.env.PORT}`)
-    );
-  })
-  .catch(() => {
-    console.log('Mongodb connection failed.');
-  });
 
 export default app;

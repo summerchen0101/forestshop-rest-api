@@ -1,12 +1,12 @@
 {
   "name": "forestshop",
   "version": "1.0.0",
-  "main": "build/index",
+  "main": "build/server",
   "license": "MIT",
   "scripts": {
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
-    "start": "npm run build && node build/index.js",
+    "start": "npm run build && node build/server.js",
     "test:model": "jest src/lib/Product/models/__test__/product-model.spec.ts --detectOpenHandles",
     "test:route": "jest src/lib/Product/route/__test__/product-route.spec.ts --detectOpenHandles"
   },
