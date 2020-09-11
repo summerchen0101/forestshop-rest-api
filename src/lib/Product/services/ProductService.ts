@@ -1,9 +1,9 @@
 import Product, { IProductModel, IProduct } from '@/lib/Product/models/Product';
 
-class ProductRepository<T extends IProductModel, U extends IProduct> {
+export class ProductRepository<T extends IProductModel, U extends IProduct> {
   constructor(public model: T) {}
 
-  create(doc: U) {
+  create(doc: U): Promise<unknown> {
     return this.model.create(doc);
   }
 
