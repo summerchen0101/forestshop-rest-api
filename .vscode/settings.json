@@ -1,5 +1,5 @@
 {
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
   // "[typescript]": {
   //   "editor.formatOnPaste": false,
   //   "editor.formatOnSave": false,

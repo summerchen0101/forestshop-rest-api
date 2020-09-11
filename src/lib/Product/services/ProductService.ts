@@ -4,6 +4,7 @@ export class ProductRepository<T extends IProductModel, U extends IProduct> {
   constructor(public model: T) {}
 
   create(doc: U): Promise<unknown> {
+    doc.name = doc.name.toUpperCase();
     return this.model.create(doc);
   }
 
