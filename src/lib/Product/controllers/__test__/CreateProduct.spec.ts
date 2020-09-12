@@ -1,16 +1,32 @@
 import sinon from 'sinon';
-import { IProduct } from '@/lib/Product/models/Product';
-import ProductService from '@/lib/Product/services/ProductService';
-import ProductModel from '@/lib/Product/models/Product';
-import connect from '@/utils/mockServerConnection';
-
-connect(ProductModel);
-describe('Product Server testing...', () => {
-  it('should insert a doc into collection', async () => {
-    const mockProduct = { name: 'Strewberry pie', price: 300 };
-    await ProductService.create(mockProduct as IProduct);
-
-    const insertedUser = await ProductModel.findOne({ name: 'Strewberry pie' });
-    expect(insertedUser).toEqual(expect.objectContaining(mockProduct));
+import request from 'supertest';
+import app from '@/app';
+import { ProductRepository } from '@/lib/Product/services/ProductService';
+import ProductModel, {
+  IProductModel,
+  IProduct
+} from '@/lib/Product/models/Product';
+import ProductServie from '@/lib/Product/services/ProductService';
+import * as ProductCtrl from '@/lib/Product/controllers';
+const mockData = {
+  name: 'Chocolate Cookies',
+  price: 220
+};
+describe('Product Controller testing...', () => {
+  it.skip('should call the service.create with args', async (done) => {
+    const mock = sinon.mock(ProductServie);
+    mock.expects('create').once().withExactArgs(mockData);
+    await request(app).post('/products').send(mockData);
+    mock.verify();
+    mock.restore();
+    done();
+  });
+  it('should send error', async (done) => {
+    const mock = sinon.mock(ProductServie);
+    mock.expects('create').once().withExactArgs(mockData).rejects();
+    await request(app).post('/products').send(mockData);
+    mock.verify();
+    mock.restore();
+    done();
   });
 });
