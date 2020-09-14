@@ -1,4 +1,5 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Document, Schema, Model, HookNextFunction } from 'mongoose';
+import { MongoError } from 'mongodb';
 import Ingredient, { IIngredient } from './schemas/Ingredient';
 
 export interface IProduct extends Document {
@@ -16,14 +17,25 @@ const productSchema: Schema = new Schema(
     },
     price: {
       type: Number,
-      required: true
+      required: [true, 'price field is required!']
     },
     ingredients: [Ingredient]
   },
   { timestamps: true }
 );
 
-// export type IProductModel = Model<IProduct>;
+productSchema.post('save', function (
+  error: MongoError,
+  doc: Document,
+  next: HookNextFunction
+) {
+  if (error.name === 'MongoError' && error.code === 11000) {
+    next(new Error('There was a duplicate key error'));
+  } else {
+    next();
+  }
+});
+
 export type IProductModel = Model<IProduct>;
 
 export default mongoose.model<IProduct, IProductModel>(
