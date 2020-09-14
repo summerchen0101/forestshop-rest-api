@@ -29,10 +29,11 @@ export abstract class BaseController {
 
   public static jsonResponse(
     res: Response,
-    code: number,
-    message: string
+    statusCode: number,
+    message: string,
+    code?: number
   ): Response {
-    return res.status(code).json({ message });
+    return res.status(statusCode).json({ message, code });
   }
 
   public ok<T>(res: Response, dto?: T): Response {
@@ -53,6 +54,19 @@ export abstract class BaseController {
       res,
       400,
       message ? message : 'Unauthorized'
+    );
+  }
+
+  public validateError(
+    res: Response,
+    code: number,
+    message?: string
+  ): Response {
+    return BaseController.jsonResponse(
+      res,
+      400,
+      message ? message : 'Unauthorized',
+      code
     );
   }
 
