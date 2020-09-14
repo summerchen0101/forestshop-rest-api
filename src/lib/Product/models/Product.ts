@@ -1,30 +1,8 @@
-import mongoose, { Document, Schema, Model, HookNextFunction } from 'mongoose';
+import mongoose, { Document, Model, HookNextFunction } from 'mongoose';
 import { MongoError } from 'mongodb';
-import Ingredient, { IIngredient } from './schemas/Ingredient';
+import Product, { IProduct } from './schemas/Product';
 
-export interface IProduct extends Document {
-  name: string;
-  price: number;
-  ingredients?: IIngredient[];
-}
-
-const productSchema: Schema = new Schema(
-  {
-    name: {
-      type: String,
-      unique: true,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: [true, 'price field is required!']
-    },
-    ingredients: [Ingredient]
-  },
-  { timestamps: true }
-);
-
-productSchema.post('save', function (
+Product.post('save', function (
   error: MongoError,
   doc: Document,
   next: HookNextFunction
@@ -38,7 +16,4 @@ productSchema.post('save', function (
 
 export type IProductModel = Model<IProduct>;
 
-export default mongoose.model<IProduct, IProductModel>(
-  'Product',
-  productSchema
-);
+export default mongoose.model<IProduct, IProductModel>('Product', Product);
