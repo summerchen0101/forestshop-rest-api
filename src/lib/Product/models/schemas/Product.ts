@@ -6,6 +6,9 @@ export interface IProduct extends Document {
   price: number;
   ingredients?: IIngredient[];
 }
+const validator = (v: any) => {
+  return v < 300;
+};
 
 export default new Schema(
   {
@@ -17,12 +20,13 @@ export default new Schema(
     price: {
       type: Number,
       required: [true, 'price field is required!'],
-      validate: {
-        validator: function (v: any) {
-          return v < 300;
-        },
-        message: (props) => `${props.path} should lower than 300!`
-      }
+      // validate: {
+      //   validator(v: any) {
+      //     return v < 300;
+      //   },
+      //   message: (props) => `${props.path} should lower than 300!`
+      // }
+      validate: [validator, '{PATH} is higher than 300']
     },
     ingredients: [Ingredient]
   },

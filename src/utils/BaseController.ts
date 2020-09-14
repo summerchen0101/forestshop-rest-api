@@ -33,7 +33,7 @@ export abstract class BaseController {
     message: string,
     code?: number
   ): Response {
-    return res.status(statusCode).json({ message, code });
+    return res.status(statusCode).json({ code, message });
   }
 
   public ok<T>(res: Response, dto?: T): Response {
