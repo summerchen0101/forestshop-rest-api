@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
 import ProductModel from '@/lib/Product/models/Product';
 import connect from '@/utils/mockServerConnection';
+import { RequiredError } from '@/utils/CustomValidation';
 
 connect(ProductModel);
 
@@ -18,7 +18,7 @@ describe('Product Model Test', () => {
     const savedProduct = await validProduct.save();
 
     expect(savedProduct._id).toBeDefined();
-    expect(savedProduct.name).toBe(productData.name);
+    expect(savedProduct.name).toBe(productData.name.toUpperCase());
     expect(savedProduct.price).toBe(productData.price);
     expect(savedProduct.ingredients).toHaveLength(2);
     expect(savedProduct.ingredients).toEqual(
@@ -50,7 +50,6 @@ describe('Product Model Test', () => {
     } catch (error) {
       err = error;
     }
-    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
-    expect(err.errors.price).toBeDefined();
+    expect(err).toBeInstanceOf(RequiredError);
   });
 });

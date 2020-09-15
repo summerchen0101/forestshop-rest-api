@@ -1,9 +1,6 @@
-import sinon, { mock } from 'sinon';
-import { ProductRepository } from '@/lib/Product/services/ProductService';
-import ProductModel, {
-  IProductModel,
-  IProduct
-} from '@/lib/Product/models/Product';
+import sinon from 'sinon';
+import ProductModel from '@/lib/Product/models/Product';
+import { IProduct } from '@/lib/Product/models/schemas/Product';
 import ProductServie from '@/lib/Product/services/ProductService';
 
 describe('Product Server testing...', () => {

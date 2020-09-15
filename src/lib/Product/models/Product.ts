@@ -1,7 +1,28 @@
 import mongoose, { Document, Model, HookNextFunction } from 'mongoose';
 import { MongoError } from 'mongodb';
 import Product, { IProduct } from './schemas/Product';
-import { DupicateError } from '@/utils/CustomValidation';
+import { DupicateError, RequiredError } from '@/utils/CustomValidation';
+
+Product.pre('save', function (next) {
+  console.log('pre: save');
+  next();
+});
+
+Product.pre('validate', function (next) {
+  const doc = this as IProduct;
+  const requiredPaths = Product.requiredPaths();
+  for (const _p of requiredPaths) {
+    const path = _p as keyof IProduct;
+    if (!doc[path]) next(new RequiredError(`${path} field is required`));
+  }
+  console.log('pre: validate');
+  next();
+});
+Product.pre('save', function (next) {
+  const doc = this as IProduct;
+  doc.name = doc.name.toUpperCase();
+  next();
+});
 
 Product.post('save', function (
   error: MongoError,
