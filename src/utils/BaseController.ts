@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import { Model, Document } from 'mongoose';
 
-export abstract class BaseController {
+export abstract class BaseController<T extends Model<Document>> {
+  constructor(public model: T) {}
   /**
    * This is the implementation that we will leave to the
    * subclasses to figure out.

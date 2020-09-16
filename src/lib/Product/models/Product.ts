@@ -3,19 +3,19 @@ import { MongoError } from 'mongodb';
 import Product, { IProduct } from './schemas/Product';
 import { DupicateError, RequiredError } from '@/utils/CustomValidation';
 
-Product.pre('validate', function (next) {
+Product.pre('validate', async function () {
   const doc = this as IProduct;
   const requiredPaths = Product.requiredPaths();
   for (const _p of requiredPaths) {
     const path = _p as keyof IProduct;
-    if (!doc[path]) next(new RequiredError(`${path} field is required`));
+    if (!doc[path]) {
+      throw new RequiredError(`${path} field is required`);
+    }
   }
-  next();
 });
-Product.pre('save', function (next) {
+Product.pre('save', async function () {
   const doc = this as IProduct;
   doc.name = doc.name.toUpperCase();
-  next();
 });
 
 Product.post('save', function (

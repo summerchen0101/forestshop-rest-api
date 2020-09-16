@@ -1,8 +1,11 @@
 import { BaseController } from '@/utils/BaseController';
 import ProductService from '@/lib/Product/services/ProductService';
 import { Request, Response } from 'express';
+import ProductModel from '@/lib/Product/models/Product';
 
-export class UpdateProductController extends BaseController {
+export class UpdateProductController extends BaseController<
+  typeof ProductModel
+> {
   protected async executeImpl(
     req: Request,
     res: Response

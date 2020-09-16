@@ -8,14 +8,14 @@ export abstract class ValidateError extends Error {
 
 export class DupicateError extends ValidateError {
   name = 'DupicateError';
-  code = 50002;
+  code = 50001;
   constructor(public message = 'There was a duplicate key error') {
     super(message);
   }
 }
 export class RequiredError extends ValidateError {
   name = 'RequiredError';
-  code = 50003;
+  code = 50002;
   constructor(public message = 'The field is required!') {
     super(message);
   }
