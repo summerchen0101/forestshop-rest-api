@@ -1,7 +1,6 @@
 import { BaseController } from '@/utils/BaseController';
-import ProductService from '@/lib/Product/services/ProductService';
 import { Request, Response } from 'express';
-import ProductModel from '@/lib/Product/models/Product';
+import ProductModel from '@/lib/Product/models/product';
 
 export class RemoveProductController extends BaseController<
   typeof ProductModel
@@ -11,7 +10,7 @@ export class RemoveProductController extends BaseController<
     res: Response
   ): Promise<void | any> {
     try {
-      const result = await ProductService.remove(req.params.id);
+      const result = await this.model.findByIdAndDelete(req.params.id);
       if (result === null) {
         return this.clientError(res, 'No such Element');
       }

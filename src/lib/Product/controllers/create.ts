@@ -1,9 +1,7 @@
 import { BaseController } from '@/utils/BaseController';
-import ProductService from '@/lib/Product/services/ProductService';
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import { ValidateError } from '@/utils/CustomValidation';
-import ProductModel from '@/lib/Product/models/Product';
+import ProductModel from '@/lib/Product/models/product';
 export class CreateProductController extends BaseController<
   typeof ProductModel
 > {
@@ -12,9 +10,7 @@ export class CreateProductController extends BaseController<
     res: Response
   ): Promise<void | any> {
     try {
-      const product = req.body;
-      const result = await this.model.create(product);
-
+      const result = await this.model.create(req.body);
       return this.ok(res, result);
     } catch (err) {
       if (err instanceof ValidateError) {

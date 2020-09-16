@@ -1,7 +1,6 @@
 import { BaseController } from '@/utils/BaseController';
-import ProductService from '@/lib/Product/services/ProductService';
+import ProductModel from '@/lib/Product/models/product';
 import { Request, Response } from 'express';
-import ProductModel from '@/lib/Product/models/Product';
 
 export class RetriveProductsController extends BaseController<
   typeof ProductModel
@@ -11,7 +10,7 @@ export class RetriveProductsController extends BaseController<
     res: Response
   ): Promise<void | any> {
     try {
-      const result = await ProductService.getList();
+      const result = await this.model.find();
       return this.ok(res, result);
     } catch (err) {
       return this.fail(res, err.toString());
