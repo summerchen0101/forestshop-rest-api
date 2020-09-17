@@ -18,15 +18,15 @@ describe('app testing', () => {
         .post('/products')
         .send({
           name: 'Herbs Cookies',
-          price: 280
+          price: 280,
+          category: 'cookie'
         })
         .expect(200);
     }),
-    it('returns 400 if do not contain price or name field', async () => {
+    it('returns 500 if do not contain price or name field', async () => {
       await request(app)
         .post('/products')
         .send({ name: 'strawberry cake' })
-        .expect(400);
-      await request(app).post('/products').send({ price: 100 }).expect(400);
+        .expect(500);
     });
 });

@@ -1,35 +1,38 @@
-import mongoose, { Document, Model, HookNextFunction } from 'mongoose';
-import { MongoError } from 'mongodb';
-import Product, { IProduct } from './schemas/Product';
-import { DupicateError, RequiredError } from '@/utils/CustomValidation';
+import mongoose, { Document, Schema } from 'mongoose';
 
-Product.pre('validate', async function () {
-  const doc = this as IProduct;
-  const requiredPaths = Product.requiredPaths();
-  for (const _p of requiredPaths) {
-    const path = _p as keyof IProduct;
-    if (!doc[path]) {
-      throw new RequiredError(`${path} field is required`);
+enum Category {
+  cake = 'cake',
+  cookie = 'cookie'
+}
+
+interface IProduct extends Document {
+  name: string;
+  price: number;
+  desc: string;
+  category: Category;
+}
+
+const Product: Schema = new Schema(
+  {
+    name: {
+      type: String,
+      unique: true,
+      required: true
+    },
+    desc: {
+      type: String
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: Object.values(Category)
     }
-  }
-});
-Product.pre('save', async function () {
-  const doc = this as IProduct;
-  doc.name = doc.name.toUpperCase();
-});
+  },
+  { timestamps: true }
+);
 
-Product.post('save', function (
-  error: MongoError,
-  doc: Document,
-  next: HookNextFunction
-) {
-  if (error.name === 'MongoError' && error.code === 11000) {
-    next(new DupicateError());
-  } else {
-    next();
-  }
-});
-
-export type IProductModel = Model<IProduct>;
-
-export default mongoose.model<IProduct, IProductModel>('Product', Product);
+export default mongoose.model<IProduct>('Product', Product);

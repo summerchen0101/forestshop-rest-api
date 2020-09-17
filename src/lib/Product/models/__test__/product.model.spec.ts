@@ -1,6 +1,5 @@
 import ProductModel from '@/lib/Product/models/product';
 import connect from '@/utils/mockServerConnection';
-import { RequiredError } from '@/utils/CustomValidation';
 
 connect(ProductModel);
 
@@ -9,23 +8,14 @@ describe('Product Model Test', () => {
     const productData = {
       name: 'Chocolate Cookies',
       price: 220,
-      ingredients: [
-        { name: 'chocolate', amount: '30g' },
-        { name: 'flour', amount: '100g' }
-      ]
+      category: 'cookie'
     };
     const validProduct = new ProductModel(productData);
     const savedProduct = await validProduct.save();
 
     expect(savedProduct._id).toBeDefined();
-    expect(savedProduct.name).toBe(productData.name.toUpperCase());
-    expect(savedProduct.price).toBe(productData.price);
-    expect(savedProduct.ingredients).toHaveLength(2);
-    expect(savedProduct.ingredients).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining(productData.ingredients[0]),
-        expect.objectContaining(productData.ingredients[1])
-      ])
+    expect(await ProductModel.findById(savedProduct._id).exec()).toEqual(
+      expect.objectContaining(productData)
     );
   });
 
@@ -33,11 +23,12 @@ describe('Product Model Test', () => {
     const productWithInvalidField: any = new ProductModel({
       name: 'Vallina Cookies',
       price: '190',
-      desc: 'Hey you!'
+      category: 'cookie',
+      plus: 'Hey you!'
     });
     const savedProductWithInvalidField = await productWithInvalidField.save();
     expect(savedProductWithInvalidField._id).toBeDefined();
-    expect(savedProductWithInvalidField.desc).toBeUndefined();
+    expect(savedProductWithInvalidField.plus).toBeUndefined();
   });
 
   it('create product without required field should failed', async () => {
@@ -50,6 +41,6 @@ describe('Product Model Test', () => {
     } catch (error) {
       err = error;
     }
-    expect(err).toBeInstanceOf(RequiredError);
+    expect(err).toBeInstanceOf(Error);
   });
 });
